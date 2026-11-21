@@ -39,6 +39,11 @@ const ev = async (expr) => { const r = await send('Runtime.evaluate', { expressi
 // Passes are keyed by viewport size, so passes rendered at the same size are counted as one.
 const HOOK = `(() => {
   const S = window.__gl = { frames: [], programs: 0, types: {}, defs: {}, vp: [0, 0] };
+  const LIGHT_UNIFORMS = {
+    DirectionalLight: 'NUM_DIR_LIGHTS', PointLight: 'NUM_POINT_LIGHTS', SpotLight: 'NUM_SPOT_LIGHTS', HemisphereLight: 'NUM_HEMI_LIGHTS',
+    RectAreaLight: 'NUM_RECT_AREA_LIGHTS', SunLight: 'NUM_SUN_LIGHTS', DirectionalLightShadow: 'NUM_DIR_LIGHT_SHADOWS',
+    PointLightShadow: 'NUM_POINT_LIGHT_SHADOWS', SpotLightShadow: 'NUM_SPOT_LIGHT_SHADOWS', SunLightShadow: 'NUM_SUN_LIGHT_SHADOWS',
+  };
   const nf = () => ({ calls: 0, inst: 0, tris: 0, lines: 0, pts: 0, passes: {} });
   S.cur = nf();
   const P = WebGL2RenderingContext.prototype;
@@ -61,9 +66,11 @@ const HOOK = `(() => {
       const mt = src.match(/#define SHADER_TYPE (\\w+)/); const mn = src.match(/#define SHADER_NAME ([^\\n]+)/);
       const k = mt ? mt[1] : (mn ? 'name:' + mn[1].trim() : 'raw'); S.types[k] = (S.types[k] || 0) + 1;
     }
-    ['NUM_DIR_LIGHTS', 'NUM_POINT_LIGHTS', 'NUM_SPOT_LIGHTS', 'NUM_HEMI_LIGHTS', 'NUM_RECT_AREA_LIGHTS', 'NUM_DIR_LIGHT_SHADOWS', 'NUM_POINT_LIGHT_SHADOWS', 'NUM_SPOT_LIGHT_SHADOWS'].forEach((k) => {
-      const m = src.match(new RegExp('#define ' + k + ' (\\\\d+)')); if (m) S.defs[k] = Math.max(S.defs[k] || 0, +m[1]);
-    });
+    // three.js substitutes the light counts into the source as numbers instead of defining NUM_*_LIGHTS,
+    // so read them from the sizes of the light uniform arrays.
+    for (const m of src.matchAll(/uniform (\\w+Light(?:Shadow)?) \\w+\\[ (\\d+) \\]/g)) {
+      const k = LIGHT_UNIFORMS[m[1]]; if (k) S.defs[k] = Math.max(S.defs[k] || 0, +m[2]);
+    }
     return ss.apply(this, arguments);
   };
   const raf = window.requestAnimationFrame.bind(window);

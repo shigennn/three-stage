@@ -441,6 +441,7 @@ Reload で再読み込みすると未保存の変更は破棄されるが、再�
 - 未保存の変更がある場合は、Scene 名の右に ● が表示される。\
   Reload は、ファイルが外部で変更された場合のみ表示される。
 - Publish は、検査を実行し、問題がなければシーンのバンドルを `dist/bundle/` に書き出す。\
+  検査は `three-stage publish` と同じで、パッケージに含まれる登録を対象にする（[scripting.md](scripting.md#publish-の検査)）。\
   結果は画面下部と Console に表示される。\
   出力の形式は [scene-format.md](scene-format.md) を参照。
 

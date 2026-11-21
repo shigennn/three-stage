@@ -29,7 +29,7 @@
 サンプルのプロジェクト（`three-stage new <フォルダ> --template sample`）の `src/` には、すべての種類の登録の例が含まれる。
 
 `src/register.ts` から読み込まれない登録は、エディタでは使用できるが、パッケージには含まれない。\
-`three-stage publish` もパッケージのエントリーポイント（`src/index.ts`）から登録を収集する。\
+Publish は、エディタでも `three-stage publish` でも、パッケージのエントリーポイント（`src/index.ts`）から登録を収集する。\
 そのため、そうした登録を使用するシーンは Publish できない。
 
 `src/index.ts` は、`src/register.ts` がエクスポートする値（サンプルとひな形では `registered`）を参照して、登録を読み込ませる。\
@@ -1027,11 +1027,11 @@ Event Timeline にのみ Track がある対象では、Event の再生外で 0 �
 Publish は、シーン定義が未登録の種類（マテリアルのシェーダー、ポストエフェクト、コンポーネント、Trigger、カメラの Motion）を参照している場合、エラーになる。\
 `asset` のパラメーターが参照するファイルが `content/` にない場合も、エラーになる。
 
-エディタの Publish は、エディタに読み込まれている登録で検査する。\
-`three-stage publish` は、パッケージのエントリーポイント（`src/index.ts`。ない場合は `src/stage.ts`）を Node で読み込み、登録を収集する。\
-そのため、`src/stage.ts` からのみ読み込まれる登録は、`three-stage publish` では未登録として扱われる。
+エディタの Publish と `three-stage publish` は、どちらもパッケージのエントリーポイント（`src/index.ts`。ない場合は `src/stage.ts`）を Node で読み込み、登録を収集する。\
+エディタに読み込まれている登録は使用しない。\
+そのため、`src/stage.ts` からのみ読み込まれる登録は、未登録として扱われる。
 
-エントリーポイントを読み込めない場合も、`three-stage publish` はエラーになる。\
+エントリーポイントを読み込めない場合も、Publish はエラーになる。\
 たとえば、ブラウザにのみ存在する `window` や `document` を、モジュールの読み込み時に参照している場合である。\
 `window` や `document` は、コンポーネント内や `useEffect` 内で参照する。
 

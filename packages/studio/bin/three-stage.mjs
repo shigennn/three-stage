@@ -4,9 +4,7 @@ import { spawn, spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { existsSync, readFileSync } from 'node:fs';
-import { publish } from '../server/publish.mjs';
-import { publishCheck } from '../server/registered.mjs';
+import { checkAndPublish } from '../server/registered.mjs';
 import { buildPackage } from '../server/build.mjs';
 import { startStudio } from '../server/studio-server.mjs';
 import { PROJECT_FILE, createProject, findPackage, projectNameFrom, readProject, writeLocalTsconfig } from '../server/project.mjs';
@@ -82,22 +80,7 @@ if (command === 'typecheck') {
 }
 
 if (command === 'publish') {
-  const scene = opt('--scene', 'scenes/main.stage.json');
-  const sceneFile = join(projectDir, 'content', scene);
-  let assets = [];
-  if (existsSync(sceneFile)) {
-    let missing;
-    try {
-      ({ missing, assets } = await publishCheck({ projectDir, scene: JSON.parse(readFileSync(sceneFile, 'utf8')) }));
-    } catch (e) {
-      missing = [e.message];
-    }
-    if (missing.length) {
-      for (const m of missing) console.error('Cannot publish: ' + m);
-      process.exit(1);
-    }
-  }
-  const r = publish({ projectDir, scene, outDir: opt('--out', undefined), assets });
+  const r = await checkAndPublish({ projectDir, scene: opt('--scene', 'scenes/main.stage.json'), outDir: opt('--out', undefined) });
   if (!r.ok) {
     for (const e of r.errors) console.error('Cannot publish: ' + e);
     process.exit(1);

@@ -123,7 +123,7 @@ const R3F_CLOCK = /THREE\.Clock: This module has been deprecated/;
 const pageLogs = (allow = []) => logs.splice(0).filter((l) => ![R3F_CLOCK, ...allow].some((a) => a.test(l)));
 const VSM = /a Point Light cannot cast shadows when the Shadow Map Type is VSM/;
 
-async function openScene(label, query, allow) {
+async function openScene(label, query) {
   logs.length = 0;
   await chrome.navigate(base + 'preview.html?quality=low&' + query, 20000);
   // Ready once components run, every glb has loaded and the reflection probe has baked. alt3 has environment None and never bakes.
