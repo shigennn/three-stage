@@ -24,8 +24,10 @@ uniform float level;
 uniform float uTime;
 `;
 
+// fwidth takes the varying itself: on Direct3D, fwidth of an expression with a uniform makes the shader compiler
+// warn X3595 (partial derivatives may be undefined).
 const FRAGMENT_BODY = /* glsl */ `
-vec2 cell = abs(fract(vGridPos / spacing - 0.5) - 0.5) / fwidth(vGridPos / spacing);
+vec2 cell = abs(fract(vGridPos / spacing - 0.5) - 0.5) / (fwidth(vGridPos) / spacing);
 float line = 1.0 - clamp(min(cell.x, cell.y) - width, 0.0, 1.0);
 float k = clamp(level / 100.0, 0.0, 1.0);
 float ripple = 0.5 + 0.5 * sin(length(vGridPos) * 0.6 - uTime * 3.0);
