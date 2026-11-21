@@ -1,6 +1,6 @@
 {
   "name": "@three-stage/runtime",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "description": "THREE Stage runtime. Reads a scene definition and renders it with three.js.",
   "license": "MIT",
