@@ -129,8 +129,7 @@ three-stage new <フォルダ> --template sample
     stage.ts         エディタのエントリーポイント
     register.ts      コンポーネントなどの登録
     index.ts         パッケージのエントリーポイント
-    mock/            モックデータ（Sample のみ）
-    components/      コンポーネント（Sample のみ）
+    mock/            モックデータ（任意）
   content/
     scenes/          シーン定義（*.stage.json）
     glb/             モデル（.glb）
@@ -149,9 +148,9 @@ three-stage new <フォルダ> --template sample
 | `src/register.ts` | コンポーネント、シェーダー、ポストエフェクト、Trigger、カメラの動き、2D UI の登録 |
 | `src/index.ts` | 組み込み先に渡す React コンポーネントのエクスポート |
 
-`src/stage.ts` はエディタのみが読み込み、パッケージには含まれない。\
+`src/stage.ts` はエディタとプレビューのページだけが読み込み、パッケージには含まれない。\
 `src/register.ts` はパッケージにも含まれる。\
-Empty には `mock/` と `components/` が含まれないため、必要になった時点で作成する。\
+コンポーネントやシェーダーのファイルは、`src/` の中に任意のフォルダ構成で配置できる。\
 `three-stage.json` の項目は [scene-format.md](scene-format.md) を参照。
 
 ### git での管理
@@ -222,7 +221,7 @@ git で管理するのは、`.three-stage/` と `dist/` 以外のすべてのフ
 | オプション | 対象 | 既定値 | 説明 |
 |---|---|---|---|
 | `--port <番号>` | `--no-open` | `5180` | サーバーのポート番号 |
-| `--name <名前>` | `new` | フォルダ名 | プロジェクト名 |
+| `--name <名前>` | `new` | フォルダ名から生成 | プロジェクト名。英小文字、数字、`.`、`_`、`-` 以外の文字は `-` に置換される |
 | `--template <種類>` | `new` | `empty` | テンプレート。`empty` または `sample` |
 | `--scene <パス>` | `publish` | `scenes/main.stage.json` | 書き出すシーン定義。`content/` からの相対パス |
 | `--out <フォルダ>` | `publish` | `dist/bundle` | 出力先 |
@@ -240,4 +239,4 @@ git で管理するのは、`.three-stage/` と `dist/` 以外のすべてのフ
 `new` は、空でないフォルダにはプロジェクトを作成しない。\
 `build` は、パッケージを `dist/package/` と tgz ファイルに書き出す。\
 `shot`、`measure`、`soak` の概要は [performance.md](performance.md) を参照。\
-これらの引数は `<インストール先>\resources\studio\tools\README.md` に記載されている。
+引数と出力は [packages/studio/tools/README.md](../packages/studio/tools/README.md) を参照。
