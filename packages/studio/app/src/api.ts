@@ -59,9 +59,9 @@ export interface PublishResult {
   errors: string[];
 }
 
-/** Publishes the saved scene definition (packages/studio/server/publish.mjs). `assets` is the assets list from publishCheck */
-export async function publishScene(scene: string, assets: string[]): Promise<PublishResult> {
-  const r = await fetch('/@stage/publish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scene, assets }) });
+/** Checks and publishes the saved scene definition (packages/studio/server/registered.mjs) */
+export async function publishScene(scene: string): Promise<PublishResult> {
+  const r = await fetch('/@stage/publish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scene }) });
   return r.json();
 }
 

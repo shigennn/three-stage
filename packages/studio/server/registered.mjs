@@ -1,11 +1,13 @@
-// Runs the runtime's publishCheck for `three-stage publish`. The command has no page holding the registrations,
-// so it loads the project's code into Node with Vite to collect them.
+// Runs the runtime's publishCheck against the registrations the built package includes. The studio page also holds
+// registrations that only src/stage.ts imports, so both the studio's Publish and `three-stage publish` check here,
+// loading the project's code into Node with Vite.
 import { createServer } from 'vite';
 import react from '@vitejs/plugin-react';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { findPackage, LOCAL_DIR, readProject, sharedPackages } from './project.mjs';
+import { publish } from './publish.mjs';
 
 const appDir = join(resolve(dirname(fileURLToPath(import.meta.url)), '..'), 'app');
 
@@ -47,4 +49,30 @@ export async function publishCheck({ projectDir, scene }) {
     process.noDeprecation = quiet;
     await server.close();
   }
+}
+
+/**
+ * Checks the registrations, then publishes. A scene file that is missing or not JSON is reported by publish().
+ * @param {{ projectDir: string, scene: string, outDir?: string }} opts
+ * @returns {Promise<ReturnType<typeof publish>>}
+ */
+export async function checkAndPublish({ projectDir, scene, outDir }) {
+  const sceneFile = join(projectDir, 'content', scene);
+  let assets = [];
+  if (existsSync(sceneFile)) {
+    let def = null;
+    try {
+      def = JSON.parse(readFileSync(sceneFile, 'utf8'));
+    } catch {}
+    if (def) {
+      let missing;
+      try {
+        ({ missing, assets } = await publishCheck({ projectDir, scene: def }));
+      } catch (e) {
+        missing = [e.message];
+      }
+      if (missing.length) return { ok: false, outDir: resolve(outDir ?? join(projectDir, 'dist', 'bundle')), files: 0, bytes: 0, errors: missing };
+    }
+  }
+  return publish({ projectDir, scene, outDir, assets });
 }

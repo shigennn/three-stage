@@ -2,7 +2,8 @@
 import { createReadStream, existsSync, mkdirSync, statSync, readdirSync, writeFileSync, openSync, readSync, closeSync, watchFile, unwatchFile } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { join, relative, resolve, extname, basename, isAbsolute } from 'node:path';
-import { DECODERS, publish } from './publish.mjs';
+import { DECODERS } from './publish.mjs';
+import { checkAndPublish } from './registered.mjs';
 import { findPackage, slash } from './project.mjs';
 import { gitCheckout, gitCreate, gitFetch, gitHeadFile, gitStatus } from './git.mjs';
 
@@ -202,8 +203,8 @@ export function stagePlugin({ projectDir, entry, name }) {
             return send(res, 200, { ok: true, mtime: Math.round(statSync(p).mtimeMs) });
           }
           if (url.pathname === '/@stage/publish' && req.method === 'POST') {
-            const { scene, assets } = JSON.parse((await readBody(req)).toString('utf8'));
-            const r = publish({ projectDir, scene, assets });
+            const { scene } = JSON.parse((await readBody(req)).toString('utf8'));
+            const r = await checkAndPublish({ projectDir, scene });
             return send(res, 200, { ...r, outDir: slash(relative(projectDir, r.outDir)) });
           }
           if (url.pathname === '/@stage/import' && req.method === 'POST') {

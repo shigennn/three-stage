@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { log, notify, openScene, refreshGit, reload, save, saveAs, setPlaying, useStudio } from '../store';
-import { normalizeScene, publishCheck } from '@three-stage/runtime';
-import { gitCheckout, gitCreate, gitFetch, publishScene, readText } from '../api';
+import { gitCheckout, gitCreate, gitFetch, publishScene } from '../api';
 import { askSave, askText } from '../ui/Dialog';
 import { FullscreenIcon } from '../ui/icons';
 import { enterFullscreen } from '../viewport/fullscreen';
@@ -16,25 +15,11 @@ async function runPublish() {
   const s = useStudio.getState();
   if (!s.scenePath) return;
   if (s.dirty && !(await askSave(`Save changes to ${fileName(s.scenePath)} before publishing?`, save))) return;
-  // Publish uses the file contents, so check the file, not the unsaved changes.
-  // The three-stage publish command runs the same check by reading the project code (packages/studio/server/registered.mjs)
-  let missing: string[];
-  let assets: string[] = [];
+  // The server checks the saved file against the registrations of the built package, not the ones loaded in this page
+  // (packages/studio/server/registered.mjs). Loading the project code there takes a few seconds.
+  notify('info', `Publishing ${fileName(s.scenePath)}`);
   try {
-    const files = new Set(useStudio.getState().files.map((f) => f.path));
-    // The file list holds normalized /-separated paths. Even if a value is written with ./ or \, Publish can still resolve it
-    const hasFile = (p: string) => files.has(p.replace(/\\/g, '/').replace(/^(\.\/)+/, ''));
-    ({ missing, assets } = publishCheck(normalizeScene(JSON.parse(await readText(s.scenePath))), hasFile));
-  } catch (e: any) {
-    missing = [`Cannot load ${s.scenePath}: ${e.message}`];
-  }
-  if (missing.length) {
-    missing.forEach((m) => notify('error', `Cannot publish: ${m}`));
-    useStudio.setState({ bottomTab: 'console' });
-    return;
-  }
-  try {
-    const r = await publishScene(s.scenePath, assets);
+    const r = await publishScene(s.scenePath);
     if (!r.ok) {
       r.errors.forEach((e) => notify('error', `Cannot publish: ${e}`));
       useStudio.setState({ bottomTab: 'console' });
