@@ -1,47 +1,124 @@
-# test
+# エンドツーエンドテスト
 
-THREE Stage のエンドツーエンドテスト。
-ツールが扱う要素をすべて含むテスト用のプロジェクト（`fixture/`）を、組み込み先と同じ手順（Publish、パッケージの作成、バンドルの読み込み）で処理し、結果を確認する。
-THREE Stage 自体を開発する人向けの文書である。
+このドキュメントでは、THREE Stage のエンドツーエンドテストの実行方法と確認項目を説明する。\
+Chrome の指定方法は [tools/README.md](../tools/README.md) を参照。
 
-## 実行
+## 概要
 
-リポジトリのルートで実行する。
+テストは、テスト用のプロジェクト（`fixture/`）を、組み込み先と同じ手順で処理して結果を確認する。\
+テスト用のプロジェクトは、THREE Stage が扱う要素をすべて含む。\
+処理の手順は、Publish、パッケージの作成、バンドルの読み込みである。
 
-```bash
+## 実行方法
+
+リポジトリのルートで、次のコマンドを実行する。
+
+```powershell
 npm test
 ```
 
-Chrome が必要である。
-既定のパスにない場合は、環境変数 `CHROME_PATH` で指定する（`../tools/README.md`）。
-
-| 環境変数 | 内容 |
-|---|---|
-| `CHROME_PATH` | Chrome の実行ファイルのパス |
-| `TEST_GPU=1` | 実際の GPU で描画する。指定しない場合は SwiftShader（CPU による描画）を使う |
-| `KEEP=1` | 作業用のフォルダ（OS の一時フォルダに複製した `fixture/`）を削除せずに残す |
-
+Chrome が必要である。\
 テストはネットワークに接続しない。
 
-## 確認する項目
-
-| グループ | 確認する内容 |
+| 環境変数 | 説明 |
 |---|---|
-| `types` | `three-stage typecheck` が通ること |
-| `Publish` | 4つのシーンを書き出せること。パラメーターの既定値が参照するファイル、フォント、EXR・HDR・KTX2・圧縮した glTF、デコーダー（Draco、Basis）、Event の一覧がバンドルに含まれること。アセットが不足している場合に Publish が中断されること |
-| `build` | パッケージ（tgz）に、エントリー、型定義、README が含まれること。エントリーから参照されない型定義が含まれないこと。`'use client'` が保持され、ファイルパスを含むコメントが残らないこと |
-| `main`、`alt1`〜`alt3`、`content` | エディタのサーバーを起動し、ヘッドレス Chrome で `preview.html?bundle=` を開いて、three.js のシーンと 2D UI の状態を読み取る。テクスチャ、マテリアル、圧縮した glTF、オブジェクトの位置の上書き、コンポーネントのパラメーター、リフレクションプローブ、アニメーション Clip、List Change と独自 Trigger による Event、`fire` による Event の再生、Event の Animation Track、データで非表示にしたオブジェクトが Event の開始時に消えないこと、警告とエラーが出ないこと。`alt1`〜`alt3` は環境光の設定を変えたシーン、`content` はバンドルを経由せず `content/` から直接読み込む |
+| `CHROME_PATH` | Chrome の実行ファイルのパス。既定のパスにない場合に指定する |
+| `TEST_GPU=1` | GPU で描画する。指定しない場合は SwiftShader（CPU による描画）を使用する |
+| `KEEP=1` | 作業用のフォルダを削除せずに残す |
 
-組み込み先の Web アプリケーション（Next.js など）での動作確認は含まない。
+作業用のフォルダは、OS の一時フォルダに複製した `fixture/` である。
+
+## 確認項目
+
+| グループ | 対象 |
+|---|---|
+| `types` | 型の検査 |
+| `Publish` | バンドルの書き出し |
+| `build` | パッケージの作成 |
+| `main`、`alt1`〜`alt3`、`content` | 組み込み先と同じ描画での表示 |
+
+### `types`
+
+`three-stage typecheck` が成功することを確認する。
+
+### `Publish`
+
+次の項目を確認する。
+
+- 4 つのシーンを書き出せること
+- パラメーターの既定値が参照するファイルが、バンドルに含まれること
+- フォント、EXR、HDR、KTX2、圧縮した glTF が、バンドルに含まれること
+- デコーダー（Draco、Basis）が、バンドルに含まれること
+- Event の一覧が、バンドルに含まれること
+- アセットが不足している場合に、Publish が中断されること
+
+### `build`
+
+パッケージ（tgz）について、次の項目を確認する。
+
+- エントリー、型定義、README が含まれること
+- エントリーから参照されない型定義が含まれないこと
+- `'use client'` が保持されること
+- ファイルパスを含むコメントが残らないこと
+
+### `main`、`alt1`〜`alt3`、`content`
+
+エディタのサーバーを起動し、ヘッドレス Chrome で `preview.html?bundle=` を開く。\
+three.js のシーンと 2D UI の状態を読み取り、次の項目を確認する。
+
+- テクスチャ、マテリアル、圧縮した glTF
+- オブジェクトの位置の上書き
+- コンポーネントのパラメーター
+- リフレクションプローブ
+- アニメーション Clip
+- List Change と独自の Trigger による Event の再生
+- `fire` による Event の再生
+- Event 内の Animation Track
+- データで非表示にしたオブジェクトが、Event の開始時に表示されないこと
+- 警告とエラーが表示されないこと
+
+| グループ | シーン |
+|---|---|
+| `main` | すべての要素を含むシーン |
+| `alt1`〜`alt3` | 環境光の設定を変更したシーン |
+| `content` | `main` を、バンドルを経由せずに `content/` から直接読み込んだもの |
+
+### 対象外
+
+組み込み先の Web アプリケーション（Next.js など）での動作確認は含まない。\
 パッケージを npm からインストールする必要があり、ネットワーク接続が必要になるためである。
 
 ## テスト用のプロジェクト
 
 | パス | 内容 |
 |---|---|
-| `fixture/content/scenes/main.stage.json` | すべての要素を含むシーン。HDRI B と Blend、リフレクションプローブ、5種類のライト、マテリアル（MeshStandardMaterial の全テクスチャ、MeshPhysicalMaterial、KTX2、独自シェーダーの2つの書き方）、ポストプロセス（組み込みの4種類、独自エフェクトの2つの書き方）、2種類のコンポーネント、Empty、4台のカメラ（Drift と独自の Motion）、Activation Track と Animation Track、3つの Event |
-| `fixture/content/scenes/alt1〜3.stage.json` | `main` の環境光の設定を変えたシーン（背景色と Room Environment、背景なしと HDR、環境光なし） |
-| `fixture/src/` | すべての種類の登録（コンポーネント、シェーダー、ポストエフェクト、Trigger、カメラの動き、2D UI、モックデータ）。テストが読み取る値を `window.__probe` に出力する |
+| `fixture/content/scenes/main.stage.json` | すべての要素を含むシーン |
+| `fixture/content/scenes/alt1〜3.stage.json` | `main` の環境光の設定を変更したシーン |
+| `fixture/src/` | すべての種類の登録 |
 
-アセットは `node packages/studio/test/make-fixture-assets.mjs` で再生成する。
+`main.stage.json` は、次の要素を含む。
+
+- HDRI B と Blend
+- リフレクションプローブ
+- 5 種類のライト
+- マテリアル。MeshStandardMaterial のすべてのテクスチャ、MeshPhysicalMaterial、KTX2、2 つの記述方法による独自シェーダー
+- ポストプロセス。組み込みの 4 種類と、2 つの記述方法による独自エフェクト
+- 2 種類のコンポーネント
+- Empty
+- 4 台のカメラ。Drift と独自の Motion を使用する
+- Activation Track と Animation Track
+- 3 つの Event
+
+`alt1`〜`alt3` の環境光の設定は、次のとおりである。
+
+| シーン | 背景 | 環境光 |
+|---|---|---|
+| `alt1` | 背景色 | Room Environment |
+| `alt2` | なし | HDR |
+| `alt3` | 既定値 | なし |
+
+`fixture/src/` は、コンポーネント、シェーダー、ポストエフェクト、Trigger、カメラの動き、2D UI、モックデータを登録する。\
+テストが読み取る値は、`window.__probe` に出力する。
+
+アセットは、`node packages/studio/test/make-fixture-assets.mjs` で再生成する。\
 スクリプトで生成していないファイルは、スクリプトの先頭に記載している。
