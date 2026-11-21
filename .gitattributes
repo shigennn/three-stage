@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+
+*.glb binary
+*.hdr binary
+*.exr binary
+*.ktx2 binary
+*.png binary
+*.jpg binary
+*.ttf binary

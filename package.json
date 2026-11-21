@@ -1,0 +1,31 @@
+{
+  "name": "three-stage",
+  "private": true,
+  "description": "A studio for building three.js scenes and shipping them as-is, and its runtime.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shigennn/three-stage.git"
+  },
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "app": "electron packages/studio/electron/main.mjs",
+    "release": "node packages/studio/release/release.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node packages/studio/test/run.mjs"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.186.0",
+    "electron": "^44.9.3",
+    "electron-builder": "^26.17.0",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

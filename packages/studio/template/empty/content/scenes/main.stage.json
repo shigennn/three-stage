@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "name": "main",
+  "assets": [],
+  "overrides": {},
+  "placed": [],
+  "materials": {},
+  "materialAssignments": [],
+  "lights": [
+    {
+      "id": "light-sun",
+      "name": "Sun",
+      "type": "directional",
+      "color": "#FFFFFF",
+      "intensity": 2,
+      "position": [8, 16, 10],
+      "target": [0, 0, 0],
+      "castShadow": true,
+      "shadow": { "mapSize": 2048, "bias": -0.0005, "normalBias": 0.04, "radius": 4, "cameraSize": 16 }
+    }
+  ],
+  "environment": {
+    "background": { "type": "color", "color": "#EEF0F4", "blur": 0 },
+    "source": "room",
+    "intensity": 0.55,
+    "rotation": 0,
+    "blend": 0,
+    "reflection": { "enabled": true, "position": [0, 1.5, 0], "resolution": 128 },
+    "fog": { "enabled": false, "color": "#EEF0F4", "near": 120, "far": 400 },
+    "toneMapping": "neutral",
+    "exposure": 1,
+    "shadows": { "enabled": true, "type": "pcf" }
+  },
+  "postprocess": [],
+  "components": [],
+  "empties": [],
+  "cameras": [
+    { "id": "camera-main", "name": "Camera", "position": [0, 3.5, 11], "target": [0, 0.6, 0], "fov": 35, "duration": 10, "blend": 1.5, "easing": "easeInOut", "motion": { "type": "stage.drift", "params": {} } }
+  ],
+  "tracks": [],
+  "render": {
+    "aspectRatio": [16, 9],
+    "quality": { "high": { "maxHeight": 1080, "shadowMapScale": 1 }, "low": { "maxHeight": 720, "shadowMapScale": 0.5 } },
+    "dynamicResolution": { "minHeight": 720, "frameTimeThreshold": 40 }
+  }
+}

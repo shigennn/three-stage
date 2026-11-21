@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self'" />
+    <title>THREE Stage</title>
+    <link rel="stylesheet" href="start.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="../app/src/assets/icon-dark.svg" alt="" />
+        <h1>THREE Stage</h1>
+      </header>
+      <div class="cols">
+        <section class="actions">
+          <button id="new" class="primary">New Project</button>
+          <button id="open">Open…</button>
+        </section>
+        <section class="list">
+          <h2>Recent Projects</h2>
+          <ul id="recent"></ul>
+          <p id="empty" class="hint" hidden>No projects yet. Create one with New Project or choose one with Open…</p>
+        </section>
+      </div>
+      <form id="new-form" hidden>
+        <h2>New Project</h2>
+        <span class="label">Template</span>
+        <div class="templates">
+          <label><input type="radio" name="template" value="empty" checked /><b>Empty</b><span>An empty project.</span></label>
+          <label><input type="radio" name="template" value="sample" /><b>Sample</b><span>Spheres that move with data, plus a shader, a glb, HDR lighting, post-processing and an Event.</span></label>
+        </div>
+        <label for="name">Name</label>
+        <input id="name" value="New Project" spellcheck="false" />
+        <label for="location">Location</label>
+        <div class="row">
+          <input id="location" spellcheck="false" />
+          <button type="button" id="pick">Browse…</button>
+        </div>
+        <p id="path" class="hint"></p>
+        <div class="row end">
+          <button type="button" id="cancel">Cancel</button>
+          <button type="submit" class="primary">Create</button>
+        </div>
+      </form>
+      <p id="error" class="error"></p>
+      <p id="busy" class="hint" hidden>Opening…</p>
+    </main>
+    <script src="start.js"></script>
+  </body>
+</html>

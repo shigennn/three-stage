@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 2,
+  "name": "main",
+  "assets": ["glb/blocks.glb"],
+  "overrides": {},
+  "placed": [],
+  "materials": {
+    "mat-grid": {
+      "name": "Grid",
+      "type": "sample.grid",
+      "params": {
+        "lowColor": "#D0D5DD",
+        "highColor": "#FDB022",
+        "spacing": 1,
+        "width": 0.5
+      },
+      "binding": {
+        "level": "level"
+      }
+    }
+  },
+  "materialAssignments": [
+    {
+      "object": "Floor",
+      "slot": "Floor",
+      "material": "mat-grid"
+    }
+  ],
+  "lights": [
+    {
+      "id": "light-key",
+      "name": "Key",
+      "type": "directional",
+      "color": "#FFFFFF",
+      "intensity": 2.2,
+      "position": [8, 14, 10],
+      "target": [0, 0, 0],
+      "castShadow": true,
+      "shadow": {
+        "mapSize": 2048,
+        "bias": -0.0005,
+        "normalBias": 0.04,
+        "radius": 4,
+        "cameraSize": 22
+      }
+    }
+  ],
+  "environment": {
+    "background": {
+      "type": "environment",
+      "color": "#EEF0F4",
+      "blur": 0.6
+    },
+    "source": "hdri",
+    "intensity": 0.8,
+    "rotation": 0,
+    "blend": 0,
+    "reflection": {
+      "enabled": true,
+      "position": [0, 1.5, 0],
+      "resolution": 128
+    },
+    "fog": {
+      "enabled": false,
+      "color": "#EEF0F4",
+      "near": 120,
+      "far": 400
+    },
+    "toneMapping": "aces",
+    "exposure": 1,
+    "shadows": {
+      "enabled": true,
+      "type": "pcf"
+    },
+    "hdri": "hdr/sky-cool.hdr",
+    "hdriB": "hdr/sky-warm.hdr"
+  },
+  "postprocess": [
+    {
+      "id": "post-vignette",
+      "type": "vignette",
+      "enabled": true,
+      "params": {
+        "offset": 1,
+        "darkness": 0.5
+      }
+    },
+    {
+      "id": "post-fxaa",
+      "type": "fxaa",
+      "enabled": true,
+      "params": {}
+    },
+    {
+      "id": "post-tint",
+      "type": "sample.tint",
+      "enabled": true,
+      "params": {
+        "tintColor": "#FFB37A",
+        "strength": 0.4
+      },
+      "binding": {
+        "level": "level"
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": "component-sky-blend",
+      "name": "Sky Blend",
+      "type": "sample.skyBlend",
+      "enabled": true,
+      "params": {
+        "from": 30,
+        "to": 80
+      },
+      "binding": {
+        "level": "level"
+      },
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    {
+      "id": "component-balls",
+      "name": "Balls",
+      "type": "sample.balls",
+      "enabled": true,
+      "params": {
+        "model": "glb/ball.glb",
+        "count": 6,
+        "area": 7,
+        "height": 1.6,
+        "scale": 1
+      },
+      "binding": {
+        "level": "level"
+      },
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    {
+      "id": "component-accent",
+      "name": "Accent",
+      "type": "sample.accent",
+      "enabled": true,
+      "params": {
+        "target": "Blocks",
+        "material": "Accent",
+        "low": "#7C8CF8",
+        "high": "#F97066"
+      },
+      "binding": {
+        "level": "level"
+      },
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    }
+  ],
+  "empties": [],
+  "cameras": [
+    {
+      "id": "camera-overview",
+      "name": "overview",
+      "position": [9, 11, 17],
+      "target": [0, 0.5, 0],
+      "fov": 40,
+      "duration": 8,
+      "blend": 1.5,
+      "easing": "easeInOut",
+      "motion": {
+        "type": "stage.drift",
+        "params": {}
+      }
+    },
+    {
+      "id": "camera-low",
+      "name": "low",
+      "position": [-11, 2.2, -3],
+      "target": [0, 0.8, 1.5],
+      "fov": 40,
+      "duration": 8,
+      "blend": 1.5,
+      "easing": "easeInOut",
+      "motion": {
+        "type": "stage.drift",
+        "params": {
+          "orbit": 4,
+          "sway": 0.4,
+          "heave": 0.08
+        }
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "track-1",
+      "target": "ui:summary",
+      "clips": [
+        {
+          "id": "clip-1",
+          "start": 0,
+          "end": 14.5,
+          "fadeIn": 0.3,
+          "fadeOut": 0.3
+        }
+      ]
+    }
+  ],
+  "timelines": [
+    {
+      "id": "timeline-notice",
+      "name": "notice",
+      "trigger": {
+        "type": "none",
+        "params": {}
+      },
+      "tracks": [
+        {
+          "id": "track-notice",
+          "target": "ui:notice",
+          "clips": [
+            {
+              "id": "clip-notice",
+              "start": 0,
+              "end": 5,
+              "fadeIn": 0.3,
+              "fadeOut": 0.3
+            }
+          ]
+        }
+      ],
+      "animations": []
+    }
+  ],
+  "render": {
+    "aspectRatio": [16, 9],
+    "quality": {
+      "high": {
+        "maxHeight": 1080,
+        "shadowMapScale": 1
+      },
+      "low": {
+        "maxHeight": 720,
+        "shadowMapScale": 0.5
+      }
+    },
+    "dynamicResolution": {
+      "minHeight": 720,
+      "frameTimeThreshold": 40
+    }
+  }
+}

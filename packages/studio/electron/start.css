@@ -1,0 +1,230 @@
+/* Keep the colors and fonts in sync with the studio (app/src/styles.css) */
+:root {
+  --bg: #1b1c1e;
+  --panel: #242527;
+  --line-2: #3a3b3f;
+  --text: #d6d7d9;
+  --text-2: #9b9da2;
+  --text-3: #6f7176;
+  --hover: #33353a;
+  --input: #1a1b1d;
+  --error: #e27a6f;
+  --accent: #3cc6dd;
+  --font: 'Segoe UI', 'Yu Gothic UI', 'Meiryo UI', system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 var(--font);
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 56px 32px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+header img {
+  width: 40px;
+  height: 40px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  padding: 8px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  background: var(--panel);
+  cursor: pointer;
+  text-align: left;
+}
+
+button:hover {
+  background: var(--hover);
+}
+
+button.primary {
+  border-color: var(--accent);
+}
+
+input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  background: var(--input);
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line-2);
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line-2);
+  cursor: pointer;
+}
+
+li:hover {
+  background: var(--hover);
+}
+
+li .info {
+  flex: 1;
+  min-width: 0;
+}
+
+li .name {
+  font-weight: 600;
+}
+
+li .dir,
+li .when {
+  color: var(--text-3);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+li.missing {
+  cursor: default;
+}
+
+li.missing .name {
+  color: var(--text-3);
+}
+
+li button {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+form {
+  margin-top: 32px;
+  padding: 24px;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  background: var(--panel);
+  max-width: 640px;
+}
+
+form > label,
+form > .label {
+  display: block;
+  margin: 14px 0 6px;
+  color: var(--text-2);
+  font-size: 12px;
+}
+
+.templates {
+  display: grid;
+  gap: 6px;
+}
+
+.templates label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.templates label:has(input:checked) {
+  border-color: var(--accent);
+}
+
+.templates input {
+  width: auto;
+  margin: 0;
+}
+
+.templates b {
+  font-weight: 600;
+  min-width: 64px;
+}
+
+.templates span {
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.row button {
+  flex: none;
+  white-space: nowrap;
+}
+
+.row.end {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.hint {
+  color: var(--text-3);
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.error {
+  color: var(--error);
+  white-space: pre-wrap;
+}

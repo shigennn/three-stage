@@ -1,0 +1,14 @@
+# git に入れるものだけを並べる。ここに無いものは入らない
+/*
+!/.gitignore
+!/README.md
+!/package.json
+!/package-lock.json
+!/tsconfig.json
+!/LICENSE
+!/.gitattributes
+!/.github/
+!/packages/
+!/docs/
+node_modules/
+dist/

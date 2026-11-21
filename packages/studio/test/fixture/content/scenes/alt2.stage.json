@@ -1,0 +1,852 @@
+{
+  "schemaVersion": 2,
+  "name": "alt2",
+  "assets": [
+    "glb/kit.glb"
+  ],
+  "overrides": {
+    "Column": {
+      "position": [
+        7,
+        1.5,
+        1
+      ],
+      "rotation": [
+        0,
+        0,
+        15
+      ],
+      "scale": [
+        1,
+        1.5,
+        1
+      ],
+      "castShadow": true,
+      "receiveShadow": false
+    },
+    "Ghost": {
+      "visible": false
+    },
+    "Fan": {
+      "clip": "fanSpin",
+      "loop": true
+    },
+    "Bell": {
+      "clip": "ring",
+      "loop": false
+    },
+    "Ground": {
+      "receiveShadow": true
+    },
+    "Crate": {
+      "castShadow": true
+    },
+    "Door": {
+      "visible": false
+    }
+  },
+  "placed": [
+    {
+      "id": "placed-spinner",
+      "name": "Spinner",
+      "asset": "glb/beacon.glb",
+      "position": [
+        -9,
+        0,
+        5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "castShadow": true,
+      "receiveShadow": true,
+      "clip": "spin",
+      "loop": true
+    },
+    {
+      "id": "placed-hopper",
+      "name": "Hopper",
+      "asset": "glb/beacon.glb",
+      "position": [
+        9,
+        0,
+        5
+      ],
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        1.2,
+        1.2,
+        1.2
+      ],
+      "castShadow": false,
+      "receiveShadow": false
+    },
+    {
+      "id": "placed-draco",
+      "name": "Draco",
+      "asset": "glb/beacon-draco.glb",
+      "position": [
+        -4,
+        0,
+        7
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "placed-meshopt",
+      "name": "Meshopt",
+      "asset": "glb/beacon-meshopt.glb",
+      "position": [
+        4,
+        0,
+        7
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "materials": {
+    "mat-std": {
+      "name": "Std",
+      "type": "standard",
+      "color": "#FFFFFF",
+      "roughness": 0.8,
+      "metalness": 0.2,
+      "emissive": "#222222",
+      "emissiveIntensity": 2,
+      "opacity": 0.95,
+      "transparent": true,
+      "envMapIntensity": 1.5,
+      "map": "textures/albedo.png",
+      "normalMap": "textures/normal.png",
+      "roughnessMap": "textures/rough.jpg",
+      "metalnessMap": "textures/metal.jpg",
+      "aoMap": "textures/ao.png",
+      "emissiveMap": "textures/emissive.png"
+    },
+    "mat-phys": {
+      "name": "Phys",
+      "type": "physical",
+      "color": "#88CCFF",
+      "roughness": 0.1,
+      "metalness": 0,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "transparent": false,
+      "envMapIntensity": 1,
+      "clearcoat": 1,
+      "clearcoatRoughness": 0.1,
+      "transmission": 0.5,
+      "thickness": 0.5,
+      "ior": 1.4,
+      "sheen": 0.5,
+      "sheenColor": "#FF00FF"
+    },
+    "mat-ktx": {
+      "name": "Ktx",
+      "type": "standard",
+      "color": "#FFFFFF",
+      "roughness": 0.5,
+      "metalness": 0,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "transparent": false,
+      "envMapIntensity": 1,
+      "map": "textures/magenta.ktx2"
+    },
+    "mat-wave": {
+      "name": "Wave",
+      "type": "test.wave",
+      "params": {
+        "color": "#3F51B5",
+        "amp": 0.3,
+        "mode": "stripes",
+        "invert": false
+      },
+      "binding": {
+        "level": "level"
+      }
+    },
+    "mat-tint": {
+      "name": "Tint",
+      "type": "test.tint",
+      "params": {
+        "tint": "#FF9800",
+        "amount": 0.4
+      },
+      "binding": {}
+    },
+    "mat-skin": {
+      "name": "Skin",
+      "type": "standard",
+      "color": "#E91E63",
+      "roughness": 0.5,
+      "metalness": 0,
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "transparent": false,
+      "envMapIntensity": 1
+    },
+    "mat-glow": {
+      "name": "Glow",
+      "type": "standard",
+      "color": "#FFFFFF",
+      "roughness": 0.5,
+      "metalness": 0,
+      "emissive": "#00FF00",
+      "emissiveIntensity": 1,
+      "opacity": 1,
+      "transparent": false,
+      "envMapIntensity": 1
+    }
+  },
+  "materialAssignments": [
+    {
+      "object": "Crate",
+      "slot": "CrateMat",
+      "material": "mat-std"
+    },
+    {
+      "object": "Orb",
+      "slot": "OrbMat",
+      "material": "mat-phys"
+    },
+    {
+      "object": "Column",
+      "slot": "ColumnMat",
+      "material": "mat-ktx"
+    },
+    {
+      "object": "Panel",
+      "slot": "PanelMat",
+      "material": "mat-wave"
+    },
+    {
+      "object": "Ground",
+      "slot": "GroundMat",
+      "material": "mat-tint"
+    },
+    {
+      "object": "Door",
+      "slot": "DoorMat",
+      "material": "mat-glow"
+    }
+  ],
+  "lights": [
+    {
+      "id": "light-sun",
+      "name": "Sun",
+      "type": "directional",
+      "color": "#FFFFFF",
+      "intensity": 2,
+      "position": [
+        10,
+        15,
+        8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "targetObject": "Crate",
+      "castShadow": true,
+      "shadow": {
+        "mapSize": 1024,
+        "bias": -0.0005,
+        "normalBias": 0.02,
+        "radius": 2,
+        "cameraSize": 15
+      }
+    },
+    {
+      "id": "light-point",
+      "name": "Bulb",
+      "type": "point",
+      "color": "#FFAA00",
+      "intensity": 30,
+      "position": [
+        0,
+        4,
+        3
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "distance": 15,
+      "decay": 2,
+      "castShadow": true,
+      "shadow": {
+        "mapSize": 1024,
+        "bias": -0.0005,
+        "normalBias": 0.02,
+        "radius": 2,
+        "cameraSize": 15
+      }
+    },
+    {
+      "id": "light-spot",
+      "name": "Spot",
+      "type": "spot",
+      "color": "#00AAFF",
+      "intensity": 80,
+      "position": [
+        -4,
+        8,
+        4
+      ],
+      "target": [
+        -2,
+        0,
+        0
+      ],
+      "distance": 30,
+      "decay": 2,
+      "angle": 25,
+      "penumbra": 0.4,
+      "castShadow": true,
+      "shadow": {
+        "mapSize": 1024,
+        "bias": -0.0005,
+        "normalBias": 0.02,
+        "radius": 2,
+        "cameraSize": 15
+      }
+    },
+    {
+      "id": "light-hemi",
+      "name": "Sky",
+      "type": "hemisphere",
+      "color": "#BBDDFF",
+      "groundColor": "#443322",
+      "intensity": 0.6,
+      "position": [
+        0,
+        10,
+        0
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "castShadow": false
+    },
+    {
+      "id": "light-amb",
+      "name": "Fill",
+      "type": "ambient",
+      "color": "#FFFFFF",
+      "intensity": 0.2,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "castShadow": false
+    }
+  ],
+  "environment": {
+    "background": {
+      "type": "none",
+      "color": "#000000",
+      "blur": 0
+    },
+    "source": "hdri",
+    "hdri": "hdr/noon.hdr",
+    "hdriB": "hdr/noon.hdr",
+    "intensity": 0.8,
+    "rotation": 45,
+    "blend": 0,
+    "reflection": {
+      "enabled": true,
+      "position": [
+        0,
+        1.5,
+        0
+      ],
+      "resolution": 128
+    },
+    "fog": {
+      "enabled": false,
+      "color": "#000000",
+      "near": 1,
+      "far": 100
+    },
+    "toneMapping": "neutral",
+    "exposure": 1.1,
+    "shadows": {
+      "enabled": true,
+      "type": "pcf"
+    }
+  },
+  "postprocess": [],
+  "components": [
+    {
+      "id": "comp-all",
+      "name": "All",
+      "type": "test.allParams",
+      "enabled": true,
+      "params": {
+        "size": 1.2,
+        "tint": "#00BCD4",
+        "spin": true,
+        "shape": "sphere",
+        "caption": "probe",
+        "decal": "textures/albedo.png",
+        "follow": "Orb",
+        "skin": "mat-skin",
+        "glow": "mat-glow"
+      },
+      "binding": {
+        "level": "level",
+        "anchor": "Door"
+      },
+      "position": [
+        0,
+        0,
+        -6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "comp-slots",
+      "name": "Slots",
+      "type": "test.slots",
+      "enabled": true,
+      "params": {
+        "gap": 2.5
+      },
+      "binding": {
+        "items": "items"
+      },
+      "position": [
+        -3,
+        0,
+        10
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "comp-off",
+      "name": "Off",
+      "type": "test.allParams",
+      "enabled": false,
+      "params": {},
+      "binding": {},
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "empties": [
+    {
+      "id": "empty-focus",
+      "name": "Focus",
+      "position": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "empty-label",
+      "name": "LabelPoint",
+      "position": [
+        0,
+        1.5,
+        0
+      ],
+      "parent": "Crate"
+    }
+  ],
+  "cameras": [
+    {
+      "id": "cam-a",
+      "name": "wide",
+      "position": [
+        0,
+        12,
+        28
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "fov": 45,
+      "duration": 6,
+      "blend": 1,
+      "easing": "linear",
+      "motion": {
+        "type": "stage.drift",
+        "params": {
+          "orbit": 3
+        }
+      }
+    },
+    {
+      "id": "cam-b",
+      "name": "items",
+      "position": [
+        0,
+        4,
+        8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "targetObject": "Focus",
+      "fov": 40,
+      "duration": 6,
+      "blend": 1,
+      "easing": "easeOut",
+      "motion": {
+        "type": "test.eachItem",
+        "params": {
+          "prefix": "Slots "
+        }
+      }
+    },
+    {
+      "id": "cam-c",
+      "name": "close",
+      "position": [
+        -12,
+        5,
+        12
+      ],
+      "target": [
+        -6,
+        1,
+        0
+      ],
+      "fov": 35,
+      "duration": 4,
+      "blend": 0.5,
+      "easing": "easeIn"
+    },
+    {
+      "id": "cam-d",
+      "name": "still",
+      "position": [
+        12,
+        6,
+        14
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "fov": 50,
+      "duration": 4,
+      "blend": 0.5,
+      "easing": "easeInOut"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "tr-card",
+      "target": "ui:card",
+      "clips": [
+        {
+          "id": "c1",
+          "start": 0,
+          "end": 10,
+          "fadeIn": 0.5,
+          "fadeOut": 0.5
+        }
+      ]
+    },
+    {
+      "id": "tr-door",
+      "target": "object:Door",
+      "clips": [
+        {
+          "id": "c2",
+          "start": 2,
+          "end": 8,
+          "fadeIn": 0.3,
+          "fadeOut": 0.3
+        }
+      ]
+    },
+    {
+      "id": "tr-hopper",
+      "target": "placed:placed-hopper",
+      "clips": [
+        {
+          "id": "c3",
+          "start": 0,
+          "end": 18,
+          "fadeIn": 0.3,
+          "fadeOut": 0.3
+        }
+      ]
+    },
+    {
+      "id": "tr-comp",
+      "target": "component:comp-all",
+      "clips": [
+        {
+          "id": "c4",
+          "start": 0,
+          "end": 12,
+          "fadeIn": 1,
+          "fadeOut": 1
+        }
+      ]
+    },
+    {
+      "id": "tr-light",
+      "target": "light:light-point",
+      "clips": [
+        {
+          "id": "c5",
+          "start": 0,
+          "end": 9,
+          "fadeIn": 0.3,
+          "fadeOut": 0.3
+        }
+      ]
+    }
+  ],
+  "animations": [
+    {
+      "id": "an-lift",
+      "target": "object:Lift",
+      "clips": [
+        {
+          "id": "a1",
+          "start": 1,
+          "end": 5,
+          "clip": "liftUp"
+        }
+      ]
+    },
+    {
+      "id": "an-hop",
+      "target": "placed:placed-hopper",
+      "clips": [
+        {
+          "id": "a2",
+          "start": 2,
+          "end": 6,
+          "clip": "rise"
+        }
+      ]
+    }
+  ],
+  "timelines": [
+    {
+      "id": "tl-hide",
+      "name": "hide",
+      "trigger": {
+        "type": "stage.listChange",
+        "params": {
+          "list": "items",
+          "key": "id",
+          "field": "active",
+          "from": "true",
+          "to": "false"
+        }
+      },
+      "tracks": [
+        {
+          "id": "tl1-t",
+          "target": "slot:comp-slots",
+          "clips": [
+            {
+              "id": "e1",
+              "start": 0,
+              "end": 3,
+              "fadeIn": 0.3,
+              "fadeOut": 0.3
+            }
+          ]
+        }
+      ],
+      "animations": [
+        {
+          "id": "tl1-a",
+          "target": "slot:comp-slots",
+          "clips": [
+            {
+              "id": "e2",
+              "start": 0,
+              "end": 3,
+              "clip": "rise"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tl-level",
+      "name": "levelUp",
+      "trigger": {
+        "type": "test.levelReached",
+        "params": {
+          "level": 70
+        }
+      },
+      "tracks": [
+        {
+          "id": "tl2-t",
+          "target": "ui:alert",
+          "clips": [
+            {
+              "id": "e3",
+              "start": 0,
+              "end": 3,
+              "fadeIn": 0.3,
+              "fadeOut": 0.3
+            }
+          ]
+        }
+      ],
+      "animations": []
+    },
+    {
+      "id": "tl-notice",
+      "name": "notice",
+      "trigger": {
+        "type": "none",
+        "params": {}
+      },
+      "tracks": [
+        {
+          "id": "tl3-t",
+          "target": "ui:notice",
+          "clips": [
+            {
+              "id": "e4",
+              "start": 0,
+              "end": 3,
+              "fadeIn": 0.3,
+              "fadeOut": 0.3
+            }
+          ]
+        },
+        {
+          "id": "tl3-g",
+          "target": "object:Ghost",
+          "clips": [
+            {
+              "id": "e5",
+              "start": 0,
+              "end": 3,
+              "fadeIn": 0.3,
+              "fadeOut": 0.3
+            }
+          ]
+        }
+      ],
+      "animations": [
+        {
+          "id": "tl3-a",
+          "target": "placed:placed-spinner",
+          "clips": [
+            {
+              "id": "e6",
+              "start": 0,
+              "end": 3,
+              "clip": "rise"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "render": {
+    "aspectRatio": [
+      16,
+      9
+    ],
+    "quality": {
+      "high": {
+        "maxHeight": 1080,
+        "shadowMapScale": 1
+      },
+      "low": {
+        "maxHeight": 540,
+        "shadowMapScale": 0.5
+      }
+    },
+    "dynamicResolution": {
+      "minHeight": 720,
+      "frameTimeThreshold": 40
+    }
+  }
+}
