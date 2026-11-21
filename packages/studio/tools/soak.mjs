@@ -14,7 +14,7 @@ const opt = (n, d) => {
 const VALUE_OPTS = new Set(['--minutes', '--every', '--warmup', '--js', '--out']);
 const URL_ = args.find((a, i) => !a.startsWith('--') && !VALUE_OPTS.has(args[i - 1]));
 if (!URL_) {
-  console.error('Usage: node tools/soak.mjs <URL> [--minutes 30] [--every 30] [--warmup 2] [--js expression] [--out out/soak.csv]');
+  console.error('Usage: node tools/soak.mjs <URL> [--minutes 30] [--every 30] [--warmup 2] [--js expression] [--out out/soak.csv] [--swiftshader]');
   process.exit(2);
 }
 const MINUTES = Number(opt('--minutes', '30'));
@@ -36,7 +36,8 @@ const { send, ev, navigate, close, profileDir } = await openChrome(
   (d) => { if (d.method === 'Runtime.exceptionThrown') errors.push(JSON.stringify(d.params.exceptionDetails).slice(0, 300)); },
 );
 
-// Patches the WebGL2 prototype, so counts cover every context in the page; frames counts rAF callbacks from all loops.
+// Patches the WebGL2 prototype, so counts cover every context in the page. frames counts only rAF callbacks that
+// issue a draw call: the page also runs rAF loops that don't render, and the 30fps cap skips rendering on some callbacks.
 const HOOK = `(() => {
   const live = window.__glLive = {};
   const P = WebGL2RenderingContext.prototype;
@@ -48,8 +49,13 @@ const HOOK = `(() => {
     P['create' + k] = function () { const o = c.apply(this, arguments); if (o) live[name]++; return o; };
     P['delete' + k] = function (o) { if (o) live[name]--; return d.apply(this, arguments); };
   }
-  let frames = 0; const raf = window.requestAnimationFrame.bind(window);
-  window.requestAnimationFrame = (cb) => raf((t) => { frames++; cb(t); });
+  let frames = 0; let drew = false;
+  for (const k of ['drawArrays', 'drawElements', 'drawArraysInstanced', 'drawElementsInstanced']) {
+    const f = P[k];
+    P[k] = function () { drew = true; return f.apply(this, arguments); };
+  }
+  const raf = window.requestAnimationFrame.bind(window);
+  window.requestAnimationFrame = (cb) => raf((t) => { drew = false; cb(t); if (drew) frames++; });
   window.__frames = () => frames;
 })();`;
 
