@@ -1,6 +1,6 @@
 {
   "name": "@three-stage/studio",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "description": "THREE Stage studio: an editor on top of the runtime for building three.js scenes.",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "dependencies": {
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
-    "@three-stage/runtime": "0.6.0",
+    "@three-stage/runtime": "0.7.0",
     "@vitejs/plugin-react": "^6.1.2",
     "immer": "^11.0.0",
     "react": "^19.3.1",
