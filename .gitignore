@@ -6,7 +6,6 @@
 !/tsconfig.json
 !/LICENSE
 !/.gitattributes
-!/.github/
 !/packages/
 !/docs/
 node_modules/
